@@ -24,6 +24,7 @@ import { TargetsModule } from './targets/targets.module';
 import { RepliesModule } from './replies/replies.module';
 import { AccessModule } from './access/access.module';
 import { SatisticalModule } from './satistical/satistical.module';
+import { ChatgptModule } from './chatgpt/chatgpt.module';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { SatisticalModule } from './satistical/satistical.module';
     RepliesModule,
     AccessModule,
     SatisticalModule,
+    ChatgptModule,
   ],
   controllers: [],
   providers: [JwtService],

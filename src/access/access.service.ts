@@ -39,4 +39,34 @@ export class AccessService {
   remove(id: number) {
     return `This action removes a #${id} access`;
   }
+
+  async getAccessStatisticsByMonth() {
+    try {
+      const result = await this.accessModal.aggregate([
+        {
+          $group: {
+            _id: {
+              month: { $month: '$createdAt' },
+              year: { $year: '$createdAt' },
+            },
+            totalAmount: { $sum: '$amount' },
+          },
+        },
+        {
+          $sort: { '_id.year': 1, '_id.month': 1 },
+        },
+      ]);
+
+      const monthlyData = new Array(12).fill(0);
+
+      result.forEach((item) => {
+        const month = item._id.month - 1;
+        monthlyData[month] = item.totalAmount;
+      });
+
+      return monthlyData;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

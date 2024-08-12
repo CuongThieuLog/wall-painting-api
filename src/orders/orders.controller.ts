@@ -48,8 +48,8 @@ export class OrdersController {
     return this.ordersService.remove(+id);
   }
 
-  @Get('monthly-stats')
-  async getMonthlyOrderStats() {
-    return this.ordersService.getMonthlyOrderStats();
+  @Get('statistics/by-month')
+  async getOrderStatisticsByMonth() {
+    return this.ordersService.getOrderStatisticsByMonth();
   }
 }

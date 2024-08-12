@@ -98,7 +98,7 @@ export class OrdersService {
     return `This action removes a #${id} order`;
   }
 
-  async getMonthlyOrderStats() {
+  async getOrderStatisticsByMonth() {
     try {
       const startOfYear = new Date(new Date().getFullYear(), 0, 1);
       const endOfYear = new Date(new Date().getFullYear() + 1, 0, 1);

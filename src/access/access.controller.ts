@@ -41,4 +41,9 @@ export class AccessController {
   remove(@Param('id') id: string) {
     return this.accessService.remove(+id);
   }
+
+  @Get('statistics/by-month')
+  getAccessStatistics() {
+    return this.accessService.getAccessStatisticsByMonth();
+  }
 }

@@ -7,6 +7,7 @@ import {
   Param,
   Req,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PaintsService } from './paints.service';
 import { ListCreatePaintDto } from './dto/list-create-paint.dto';

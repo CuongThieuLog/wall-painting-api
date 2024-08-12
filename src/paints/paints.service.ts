@@ -137,4 +137,31 @@ export class PaintsService {
       throw error;
     }
   }
+
+  async getTopPaintByCriteria(criteria: string): Promise<Paint | null> {
+    try {
+      let sortField;
+
+      switch (criteria) {
+        case 'views':
+          sortField = { views: -1 };
+          break;
+        case 'total_score':
+          sortField = { total_score: -1 };
+          break;
+        case 'user_rating':
+          sortField = { account_users_rate: -1 };
+          break;
+        case 'price':
+          sortField = { price: -1 };
+          break;
+        default:
+          throw new Error('Invalid criteria');
+      }
+
+      return this.paintModal.findOne({}).sort(sortField).exec();
+    } catch (error) {
+      throw new Error(`Failed to get top paint by criteria: ${error.message}`);
+    }
+  }
 }

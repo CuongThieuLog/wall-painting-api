@@ -23,14 +23,14 @@ export class OrdersService {
           $inc: { stock: -Number(pr.amount) },
         });
       }
-      await this.sendMail.empty();
+      // await this.sendMail.empty();
       const order = await this.orderModal.create(createOrderDto);
-      const payload = await this.orderModal
+      await this.orderModal
         .findOne({ _id: order._id })
         .sort({ createdAt: -1 })
         .populate('user')
         .populate('cart.paint');
-      await this.sendMail.add(payload);
+      // await this.sendMail.add(payload);
       return;
     } catch (error) {
       throw error;

@@ -25,6 +25,7 @@ import { RepliesModule } from './replies/replies.module';
 import { AccessModule } from './access/access.module';
 import { SatisticalModule } from './satistical/satistical.module';
 import { ChatgptModule } from './chatgpt/chatgpt.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ChatgptModule } from './chatgpt/chatgpt.module';
       useFactory: async (configService: ConfigService) => ({
         transport: {
           host: configService.get('MAIL_HOST'),
+          port: configService.get('MAIL_PORT'),
           secure: false,
           auth: {
             user: configService.get('MAIL_USER'),
@@ -60,6 +62,7 @@ import { ChatgptModule } from './chatgpt/chatgpt.module';
           host: configService.get('REDIS_HOST'),
           port: configService.get('REDIS_PORT'),
           password: configService.get('REDIS_PASSWORD'),
+          family: 6,
         },
       }),
       inject: [ConfigService],
@@ -80,6 +83,7 @@ import { ChatgptModule } from './chatgpt/chatgpt.module';
     AccessModule,
     SatisticalModule,
     ChatgptModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [JwtService],

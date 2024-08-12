@@ -57,14 +57,19 @@ import { PaymentModule } from './payment/payment.module';
     }),
     BullModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        redis: {
-          host: configService.get('REDIS_HOST'),
-          port: configService.get('REDIS_PORT'),
-          password: configService.get('REDIS_PASSWORD'),
-          family: 6,
-        },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const redisHost = configService.get<string>('REDIS_HOST');
+        const redisPort = configService.get<number>('REDIS_PORT');
+        const redisPassword = configService.get<string>('REDIS_PASSWORD');
+
+        return {
+          redis: {
+            host: redisHost,
+            port: redisPort,
+            password: redisPassword,
+          },
+        };
+      },
       inject: [ConfigService],
     }),
     ScheduleModule.forRoot(),

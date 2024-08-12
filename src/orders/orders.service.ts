@@ -96,4 +96,41 @@ export class OrdersService {
   remove(id: number) {
     return `This action removes a #${id} order`;
   }
+
+  async getMonthlyOrderStats() {
+    try {
+      const startOfYear = new Date(new Date().getFullYear(), 0, 1);
+      const endOfYear = new Date(new Date().getFullYear() + 1, 0, 1);
+
+      const orders = await this.orderModal.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: startOfYear, $lt: endOfYear },
+          },
+        },
+        {
+          $group: {
+            _id: { $month: { $ifNull: ['$createdAt', new Date(1970, 0, 1)] } },
+            totalOrders: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ]);
+
+      const monthlyOrders = new Array(12).fill(0);
+      orders.forEach((order) => {
+        const monthIndex = order._id - 1;
+        if (!isNaN(monthIndex) && monthIndex >= 0 && monthIndex < 12) {
+          monthlyOrders[monthIndex] = order.totalOrders;
+        }
+      });
+
+      return monthlyOrders;
+    } catch (error) {
+      console.error('Error calculating monthly order stats:', error);
+      throw error;
+    }
+  }
 }
